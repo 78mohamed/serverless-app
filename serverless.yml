@@ -3,6 +3,7 @@ service: simple-python-app
 provider:
   name: aws
   runtime: python3.10
+  secret-manager: ${opt:secret-manager, 'prod'}
   region: us-east-1
 
 custom:
