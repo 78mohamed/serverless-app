@@ -13,6 +13,7 @@ custom:
 functions:
   hello:
     handler: handler.hello
+    environment: ${self:custom.secret}
     events:
       - http:
           path: hello
