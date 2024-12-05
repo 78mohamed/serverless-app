@@ -1,0 +1,27 @@
+service: simple-python-app
+
+provider:
+  name: aws
+  runtime: python3.10
+  region: us-east-1
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http:
+          path: hello
+          method: get
+
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    dockerizePip: true  # Ensures compatibility with AWS Lambda's Python environment
+
+package:
+  exclude:
+    - node_modules/**
+    - .serverless/**
+    - .venv/**
