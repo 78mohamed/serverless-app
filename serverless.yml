@@ -4,6 +4,8 @@ provider:
   name: aws
   runtime: python3.10
   region: us-east-1
+  environment:
+    SECRET_VALUE: ${ssm:/aws/reference/secretsmanager/new-test~true}
 
 functions:
   hello:
