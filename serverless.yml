@@ -7,7 +7,7 @@ provider:
   region: us-east-1
 
 custom:
-  secret: ${ssm:/aws/reference/secretsmanager/new-test}
+  secret: ${ssm:/aws/reference/secretsmanager/${self:provider.secret-manager}}
   pythonRequirements:
     dockerizePip: true  # Ensures compatibility with AWS Lambda's Python environment
 
