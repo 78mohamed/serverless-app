@@ -7,6 +7,8 @@ provider:
 
 custom:
   secret: ${ssm:/aws/reference/secretsmanager/new-test}
+  pythonRequirements:
+    dockerizePip: true  # Ensures compatibility with AWS Lambda's Python environment
 
 functions:
   hello:
@@ -19,9 +21,6 @@ functions:
 plugins:
   - serverless-python-requirements
 
-custom:
-  pythonRequirements:
-    dockerizePip: true  # Ensures compatibility with AWS Lambda's Python environment
 
 package:
   exclude:
