@@ -3,11 +3,11 @@ service: simple-python-app
 provider:
   name: aws
   runtime: python3.10
-  secretmanager: ${opt:secretmanager, 'prod'}
+  secretmanager: ${opt:stage}
   region: us-east-1
 
 custom:
-  secret: ${ssm:/aws/reference/secretsmanager/${self:provider.secretmanager}}
+  secret: ${ssm:/aws/reference/secretsmanager/new-test}
   pythonRequirements:
     dockerizePip: true  # Ensures compatibility with AWS Lambda's Python environment
 
