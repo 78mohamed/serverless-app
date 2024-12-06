@@ -22,14 +22,14 @@ jobs:
         id: customers
         run: |
           customers=$(aws ssm get-parameter --name customers --query "Parameter.Value" --output text)
-          echo "customers=[$customers]" >> "$GITHUB_OUTPUT"
+          echo "customers=$customers" >> "$GITHUB_OUTPUT"
 
   example_matrix:
     runs-on: ubuntu-latest
     needs: get_matrix
     strategy:
       matrix:
-        version: ${{ needs.get_matrix.outputs.customers }} #[customer1, customer2, customer3]
+        version: ${{ fromJson(needs.get_matrix.outputs.customers) }} #[customer1, customer2, customer3]
     steps:
       - name: test
         run: echo ${{ matrix.version }}
