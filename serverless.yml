@@ -3,7 +3,7 @@ service: simple-python-app
 provider:
   name: aws
   runtime: python3.10
-  #secretmanager: ${opt:stage}
+  secret_manager: ${opt:secret_manager}
   region: us-east-1
 
 custom:
