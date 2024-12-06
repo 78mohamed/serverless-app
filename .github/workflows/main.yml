@@ -34,7 +34,7 @@ jobs:
         npm install -g serverless@3.36.0
         npm install serverless-python-requirements
         sls plugin install -n serverless-offline@13.6.0
-        sls deploy --secret 'new-test'
+        sls deploy
 
     - name: Run command on failure
       if: failure()
