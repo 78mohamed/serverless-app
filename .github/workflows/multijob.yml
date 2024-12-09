@@ -41,4 +41,5 @@ jobs:
     steps:
       - name: test
         run: echo ${{ needs.get_matrix.outputs.customers }} #${{ matrix.version }}
+# aws ssm get-parameters-by-path --path /app/customer1 --recursive --query "Parameters[*].[Name,Value]" --output text | sed 's|^/app/customer1/||; s|\t|=|g' > .env
   
