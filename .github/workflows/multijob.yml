@@ -30,7 +30,7 @@ jobs:
       - name: Generate customer list
         id: generate-customers
         run: |
-          echo "::set-output name=customers::$(echo '["customer1", "customer2", "customer3"]')"
+          echo "::set-output name=customers::$(echo ["customer1", "customer2", "customer3"])"
 
   example_matrix:
     runs-on: ubuntu-latest
