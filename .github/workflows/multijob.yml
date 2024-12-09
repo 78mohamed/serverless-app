@@ -22,6 +22,7 @@ jobs:
         id: customers
         run: |
           customers=$(aws ssm get-parameter --name customers --query "Parameter.Value" --output text)
+          echo $customers
           echo "customers=$customers" >> "$GITHUB_OUTPUT"
 
   example_matrix:
