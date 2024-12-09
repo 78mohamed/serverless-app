@@ -23,7 +23,7 @@ jobs:
         run: |
           customers=$(aws ssm get-parameter --name customers --query "Parameter.Value" --output text)
           echo $customers
-          customers='[${customers}]'
+          customers="'[${customers}]'"
           echo $customers
           echo "customers=$customers" >> "$GITHUB_OUTPUT"
 
