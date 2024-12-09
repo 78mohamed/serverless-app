@@ -32,8 +32,8 @@ jobs:
     needs: get_matrix
     strategy:
       matrix:
-        version: ${{ needs.get_matrix.outputs.customers }} #[customer1, customer2, customer3]
+        version: [customer1, customer2, customer3] #[customer1, customer2, customer3]
     steps:
       - name: test
-        run: echo ${{ matrix.version }}
+        run: echo ${{ needs.get_matrix.outputs.customers }} #${{ matrix.version }}
   
