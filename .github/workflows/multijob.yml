@@ -23,14 +23,14 @@ jobs:
         run: |
           customers=$(aws ssm get-parameter --name customers --query "Parameter.Value" --output text)
           echo $customers
-          customers=[$customers]
+          customers='[$customers]'
           echo $customers
           echo "customers=$customers" >> "$GITHUB_OUTPUT"
 
       - name: Generate customer list
         id: generate-customers
         run: |
-          echo "::set-output name=customers::$(echo ["customer1", "customer2", "customer3"])"
+          echo "::set-output name=customers::$(echo '["customer1", "customer2", "customer3"]')"
 
   example_matrix:
     runs-on: ubuntu-latest
