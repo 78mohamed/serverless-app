@@ -8,8 +8,6 @@ jobs:
     outputs:
       customers: ${{ steps.customers.outputs.customers }}
     steps:
-      - name: test
-        run: echo ${{ matrix.version }}
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -35,7 +33,15 @@ jobs:
         customers: ${{ fromJSON(needs.get_customers.outputs.customers) }}
 
     steps:
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+    
       - name: create .env
         run: |
           aws ssm get-parameters-by-path --path /${{ matrix.customers }}/app/backendConfig --recursive --query "Parameters[*].[Name,Value]" --output text | sed 's|^/${{ matrix.customers }}/app/backendConfig/||; s|\t|=|g' > .env
-          echo $(aws ssm get-parameters-by-path --path /${{ matrix.customers }}/app/backendConfig --recursive --query "Parameters[*].[Name,Value]" --output text | sed 's|^/${{ matrix.customers }}/app/backendConfig/||; s|\t|=|g')
+          cat .env
