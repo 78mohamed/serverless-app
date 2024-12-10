@@ -1,4 +1,4 @@
-name: Automation Testing Parallel
+name: demo Parallel
 on:
   workflow_dispatch:
 
