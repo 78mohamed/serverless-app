@@ -20,7 +20,7 @@ functions:
       securityGroupIds:
         ${self:provider.securityGroupId}
       subnetIds:
-        ${self:provider.subnetId1}
+        ${self:provider.subnetId}
     environment: ${self:custom.secret}
     events:
       - http:
