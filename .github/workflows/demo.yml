@@ -48,6 +48,18 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
+
+      - name: modifiy frontend enviroment
+        run: |
+          data=$(aws ssm get-parameters-by-path --path /${{ matrix.customers }}/app/frontendConfig --query "Parameters[].[Name,Value]" --output json)
+          input_file="src/enviroments/enviroment.ts"
+          variable_names=$(echo "$data" | jq -r '.[].[0]' | jq -s .)
+          echo $variable_names
+          for variable in "${variable_names[@]}"; do
+            part_to_remove="/${{ matrix.customers }}/app/frontendConfig/"
+            modified_value=${variable#$part_to_remove}
+            value=$(echo "$data" | jq -r --arg var "/${{ matrix.customers }}/app/frontendConfig/frontendUrl/$value" '.[] | select(.[0] == $var) | .[1]')
+            sed -i "s/\\\$$modified_value/$value/g" "$input_file"
     
       - name: create .env
         run: |
