@@ -2,10 +2,12 @@ service: simple-python-app
 
 provider:
   name: aws
-  runtime: python3.10
+  runtime: ${env:runtime,'python3.10'}
   secret_manager: ${env:secret_manager}
   region: us-east-1
-
+  stage: ${env:stage, 'prod'}
+  subnetId: ${env:subnetId}
+  securityGroupId: ${env:securityGroupId}
 custom:
   secret: ${ssm:/aws/reference/secretsmanager/${self:provider.secret_manager}}
   pythonRequirements:
@@ -14,6 +16,11 @@ custom:
 functions:
   hello:
     handler: handler.hello
+    vpc:
+      securityGroupIds:
+        ${self:provider.securityGroupId}
+      subnetIds:
+        ${self:provider.subnetId1}
     environment: ${self:custom.secret}
     events:
       - http:
