@@ -38,4 +38,4 @@ jobs:
       - name: create .env
         run: |
           aws ssm get-parameters-by-path --path /${{ matrix.customers }}/app/backendConfig --recursive --query "Parameters[*].[Name,Value]" --output text | sed 's|^/${{ matrix.customers }}/app/backendConfig/||; s|\t|=|g' > .env
-          cat .env
+          echo $(aws ssm get-parameters-by-path --path /${{ matrix.customers }}/app/backendConfig --recursive --query "Parameters[*].[Name,Value]" --output text | sed 's|^/${{ matrix.customers }}/app/backendConfig/||; s|\t|=|g')
