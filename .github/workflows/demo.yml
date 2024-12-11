@@ -56,11 +56,9 @@ jobs:
           count=$(echo "$data" | jq 'length')
           for ((i=0; i<count; i++)); do
             item=$(echo "$data" | jq --argjson index "$i" '.[$index]')
-            var_name=$(echo "$item" | jq -r '.[0]')
+            var_name=$(echo "$item" | jq -r '.[0]' | xargs basename)
             value=$(echo "$item" | jq -r '.[1]')
-            part_to_remove="/${{ matrix.customers }}/app/frontendConfig/"
-            modified_value=${var_name#$part_to_remove}
-            sed -i "s/\\\$$modified_value/$value/g" "$input_file"
+            sed -i "s/\\\$$var_name/$value/g" "$input_file"
           done
       - name: create .env
         run: |
