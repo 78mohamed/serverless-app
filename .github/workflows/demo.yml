@@ -75,3 +75,9 @@ jobs:
           npm install serverless-python-requirements
           sls plugin install -n serverless-offline@13.6.0
           sls deploy --param "secret_manager=new-test"
+
+      - name: Install serverless framework & dependencies
+        run: |
+          IAC=$(aws ssm get-parameters-by-path --path /${{ matrix.customers }}/app/IAC --query "Parameters[].[Name,Value]" --output json)
+          frontendConfig=$(aws ssm get-parameters-by-path --path /${{ matrix.customers }}/app/frontendConfig --query "Parameters[].[Name,Value]" --output json)
+          backendConfig=$(aws ssm get-parameters-by-path --path /${{ matrix.customers }}/app/backendConfig --query "Parameters[].[Name,Value]" --output text)
