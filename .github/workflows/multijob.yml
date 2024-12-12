@@ -39,7 +39,13 @@ jobs:
       matrix:
         version: ${{ fromJSON(needs.get_customers.outputs.customers) }} #["customer1", "customer2", "customer3"]
     steps:
-      - name: test
-        run: echo ${{ needs.get_matrix.outputs.customers }} #${{ matrix.version }}
+      - name: Set environment variable dynamically
+        run: |
+          var="MY_VARIABLE"
+          val="my_value"
+          echo "$var=$val" >> $GITHUB_ENV
+      - name: Use the environment variable
+        run: echo "The value of MY_VARIABLE is $MY_VARIABLE"
+          
 # aws ssm get-parameters-by-path --path /app/customer1 --recursive --query "Parameters[*].[Name,Value]" --output text | sed 's|^/app/customer1/||; s|\t|=|g' > .env
   
