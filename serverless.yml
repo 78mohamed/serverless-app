@@ -2,6 +2,8 @@ service: simple-python-app
 
 provider:
   name: aws
+  environment:
+    helloTest: ${env:helloTest, 'disnuts'}
   runtime: ${env:runtime,'python3.10'}
   secret_manager: ${env:secret_manager}
   region: us-east-1
