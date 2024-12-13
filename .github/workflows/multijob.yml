@@ -44,8 +44,11 @@ jobs:
           var="MY_VARIABLE"
           val="my_value"
           echo "$var=$val" >> $GITHUB_ENV
+          export val2="my_value321"
       - name: Use the environment variable
-        run: echo "The value of MY_VARIABLE is $MY_VARIABLE"
+        run: |
+          echo "The value of MY_VARIABLE is $MY_VARIABLE"
+          echo "The value of MY_VARIABLE is $val2"
   
       - name: Checkout
         uses: actions/checkout@v3
