@@ -27,6 +27,13 @@ jobs:
     #   with:
     #     python-version: 3.10
 
+    - name: get the parameters for IAC
+      run: |
+        IAC=$(aws ssm get-parameter --name /${{ matrix.customers }}/app/IAC --query "Parameter.Value" --output text)
+        while IFS='=' read -r key val; do
+            echo "$key=$val" >> $GITHUB_ENV
+        done <<< "$IAC"
+
     - name: Install serverless framework & dependencies
       # env: 
       #   secret_manager: new-test
@@ -34,7 +41,7 @@ jobs:
         npm install -g serverless@3.36.0
         npm install serverless-python-requirements
         sls plugin install -n serverless-offline@13.6.0
-        sls deploy --param "secret_manager=new-test"
+        sls deploy
 
     - name: Run command on failure
       if: failure()
