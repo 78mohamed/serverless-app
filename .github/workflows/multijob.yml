@@ -46,6 +46,16 @@ jobs:
           echo "$var=$val" >> $GITHUB_ENV
       - name: Use the environment variable
         run: echo "The value of MY_VARIABLE is $MY_VARIABLE"
-          
+  
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: testing
+        run: |
+          ls -la
+          cd src
+          ls -la
+          cd ~
+          ls -la
 # aws ssm get-parameters-by-path --path /app/customer1 --recursive --query "Parameters[*].[Name,Value]" --output text | sed 's|^/app/customer1/||; s|\t|=|g' > .env
   
