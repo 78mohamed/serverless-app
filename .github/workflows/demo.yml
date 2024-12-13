@@ -63,14 +63,21 @@ jobs:
       - name: create .env
         run: |
           aws ssm get-parameters-by-path --path /${{ matrix.customers }}/app/backendConfig --recursive --query "Parameters[*].[Name,Value]" --output text | sed 's|^/${{ matrix.customers }}/app/backendConfig/||; s|\t|=|g' > .env
+  
+      - name: get the parameters for IAC
+        run: |
+          IAC=$(aws ssm get-parameter --name /${{ matrix.customers }}/app/IAC --query "Parameter.Value" --output text)
+          while IFS='=' read -r key val; do
+              echo "$key=$val" >> $GITHUB_ENV
+          done <<< "$IAC"
 
       - name: Install serverless framework & dependencies
         run: |
-          export secret_manager=$(aws ssm get-parameter --name /${{ matrix.customers }}/app/IAC/secret_manager --query "Parameter.Value" --output text)
-          export runtime=$(aws ssm get-parameter --name /${{ matrix.customers }}/app/IAC/runtime --query "Parameter.Value" --output text)
-          export securityGroupId=$(aws ssm get-parameter --name /${{ matrix.customers }}/app/IAC/securityGroupId --query "Parameter.Value" --output text)
-          export stage=$(aws ssm get-parameter --name /${{ matrix.customers }}/app/IAC/stage --query "Parameter.Value" --output text)
-          export subnetId=$(aws ssm get-parameter --name /${{ matrix.customers }}/app/IAC/subnetId --query "Parameter.Value" --output text)
+          # export secret_manager=$(aws ssm get-parameter --name /${{ matrix.customers }}/app/IAC/secret_manager --query "Parameter.Value" --output text)
+          # export runtime=$(aws ssm get-parameter --name /${{ matrix.customers }}/app/IAC/runtime --query "Parameter.Value" --output text)
+          # export securityGroupId=$(aws ssm get-parameter --name /${{ matrix.customers }}/app/IAC/securityGroupId --query "Parameter.Value" --output text)
+          # export stage=$(aws ssm get-parameter --name /${{ matrix.customers }}/app/IAC/stage --query "Parameter.Value" --output text)
+          # export subnetId=$(aws ssm get-parameter --name /${{ matrix.customers }}/app/IAC/subnetId --query "Parameter.Value" --output text)
           npm install -g serverless@3.36.0
           npm install serverless-python-requirements
           sls plugin install -n serverless-offline@13.6.0
