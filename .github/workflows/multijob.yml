@@ -45,22 +45,26 @@ jobs:
           val="my_value"
           echo "$var=$val" >> $GITHUB_ENV
           export val2="my_value321"
+          
       - name: Use the environment variable
         run: |
           echo "The value of MY_VARIABLE is $MY_VARIABLE"
           echo "The value of MY_VARIABLE is $val2"
   
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: testing
+      - name: Define environment variables
         run: |
-          ls -la
-          echo "-------------------------------------------------------------------------"
-          cd src
-          ls -la
-          echo "-------------------------------------------------------------------------"
-          cd /
-          ls -la
+          echo "CUSTOMER=example_customer" >> $GITHUB_ENV
+          echo "ORDER=example_order" >> $GITHUB_ENV
+          echo "REGION=us-east-1" >> $GITHUB_ENV
+          echo "ENV=production" >> $GITHUB_ENV
+          echo $GITHUB_ENV
+
+      - name: Export all environment variables
+        run: |
+          # Export all variables from $GITHUB_ENV
+          while IFS='=' read -r key value; do
+            export "$key=$value"
+            echo "Exported: $key=$value"
+          done < "$GITHUB_ENV"
 # aws ssm get-parameters-by-path --path /app/customer1 --recursive --query "Parameters[*].[Name,Value]" --output text | sed 's|^/app/customer1/||; s|\t|=|g' > .env
   
